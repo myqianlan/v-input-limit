@@ -13,6 +13,7 @@ function optFilter(opt) {
         if (value.indexOf('-') === 0 && min < 0) {
           result = '-' + result
         }
+        result = deleteErrorZero(result)
         break
       case 'float':
         result = value.replace(/[^\d.]/g, '')
@@ -24,6 +25,7 @@ function optFilter(opt) {
         if (value.indexOf('-') === 0 && min < 0) {
           result = '-' + result
         }
+        result = deleteErrorZero(result)
         break
       default:
         result = value
@@ -39,7 +41,47 @@ function optFilter(opt) {
     return result
   }
 }
+// 去除首位多余的0
+function deleteErrorZero(str) {
+  if (!str) return ''
+  let flag = true
+  let count = 0
+  let ret = []
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === '.') {
+      flag = false
+    }
+    if (str[i] !== '-' && str[i] !== '0') {
+      flag = false
+    }
 
+    if (str[i] === '0' && flag) {
+      if (!count) {
+        ret.push(str[i])
+      }
+
+      count++
+    } else {
+      ret.push(str[i])
+    }
+  }
+
+  if (ret[0] === '-') {
+    if (ret.length >= 3) {
+      if (ret[1] === '0' && ret[2] !== '.') {
+        ret.splice(1, 1)
+      }
+    }
+  } else {
+    if (ret.length >= 2) {
+      if (ret[0] === '0' && ret[1] !== '.') {
+        ret.shift()
+      }
+    }
+  }
+
+  return ret.join('')
+}
 export default {
   bind(el, binding) {
     const type = Object.prototype.toString.call(binding.value)
