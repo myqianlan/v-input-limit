@@ -31,10 +31,10 @@ function optFilter(opt) {
         result = value
     }
 
-    if (min !== undefined && Number(value) < min) {
+    if (min !== undefined && (value ?? '')!=='' && Number(value) < min) {
       result = min
     }
-    if (max !== undefined && Number(value) > max) {
+    if (max !== undefined && (value ?? '')!=='' && Number(value) > max) {
       result = max
     }
 
