@@ -1,4 +1,5 @@
 // 修改自 https://github.com/naifen00/vue-input-limit
+// 注意：强烈建议不要使用min与max参数，会存在问题。仅作为数值输入优化判断
 function optFilter(opt) {
   const type = opt.type
   const decimal = opt.decimal
